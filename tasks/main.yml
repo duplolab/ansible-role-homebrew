@@ -5,23 +5,13 @@
     homebrew_group: "{{ homebrew_group | default(ansible_user_gid) }}"
 
 # Homebrew setup prerequisites.
-- name: Ensure Homebrew parent directory has correct permissions (MacOS >= 10.13).
+- name: Ensure Homebrew parent directory has correct permissions.
   file:
     path: "{{ homebrew_prefix }}"
-    owner: root
+    owner: "{{ homebrew_user }}"
+    group: "{{ homebrew_group }}"
     state: directory
   become: true
-  when: "ansible_distribution_version is version('10.13', '>=')"
-
-- name: Ensure Homebrew parent directory has correct permissions (MacOS < 10.13).
-  file:
-    path: "{{ homebrew_prefix }}"
-    owner: root
-    group: admin
-    state: directory
-    mode: 0775
-  become: true
-  when: "ansible_distribution_version is version('10.13', '<')"
 
 - name: Ensure Homebrew directory exists.
   file:
@@ -97,8 +87,9 @@
 
     # Tap.
     - name: Ensure configured taps are tapped.
-      homebrew_tap:
-        tap: "{{ item.name | default(item) }}"
+      community.general.homebrew_tap:
+        name: "{{ item.name | default(item) }}"
+        path: "{{ homebrew_brew_bin_path }}"
         url: "{{ item.url | default(omit) }}"
         state: present
       loop: "{{ homebrew_taps }}"
