@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include duplolab.homebrew"
+      include_role:
+        name: "duplolab.homebrew"
