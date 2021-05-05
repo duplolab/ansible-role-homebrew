@@ -1,7 +1,7 @@
 ---
 # tasks for persisting Homebrew environment variables in shell configs
 
-- name: Ensure virtualenv is sourced from the .bashrc
+- name: Ensure Homebrew environment variables in shell configs
   blockinfile:
     path: "{{ ansible_env.HOME }}/{{ homebrew_profile }}"
     block: |
