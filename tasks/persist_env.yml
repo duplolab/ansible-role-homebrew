@@ -1,0 +1,11 @@
+---
+# tasks for persisting Homebrew environment variables in shell configs
+
+- name: Ensure virtualenv is sourced from the .bashrc
+  blockinfile:
+    path: "{{ ansible_env.HOME }}/{{ homebrew_profile }}"
+    block: |
+      [[ -f "{{ homebrew_brew_bin_path }}/brew" ]] && eval $("{{ homebrew_brew_bin_path }}/brew" shellenv)
+    marker: "# {mark} ANSIBLE MANAGED BLOCK - Homebrew"
+    insertbefore: BOF
+    create: no

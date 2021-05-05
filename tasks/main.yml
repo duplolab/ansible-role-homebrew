@@ -149,6 +149,17 @@
       command: "brew bundle chdir={{ homebrew_brewfile_dir }}"
       when: homebrew_brewfile.stat.exists and homebrew_use_brewfile
 
+    - block:
+        - name: Persist additional brew environment variables
+          include_tasks: persist_env.yml
+          loop:
+            - .bash_profile
+            - .profile
+            - .bashrc
+            - .zshrc
+          loop_control:
+            loop_var: homebrew_profile
+
   # Privilege escalation is only required for inner steps when
   # the `homebrew_user` doesn't match the `ansible_user_id`
   become: "{{ (homebrew_user != ansible_user_id) | bool }}"
