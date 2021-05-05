@@ -150,7 +150,7 @@
       when: homebrew_brewfile.stat.exists and homebrew_use_brewfile
 
     - block:
-        - name: Persist additional brew environment variables
+        - name: Persist additional homebrew environment variables
           include_tasks: persist_env.yml
           loop:
             - .bash_profile
