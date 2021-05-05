@@ -5,7 +5,7 @@
   set_fact:
     homebrew_profile_path: "{{ ansible_env.HOME }}/{{ homebrew_profile }}"
 
-- name: "Get stats of the {{ homebrew_profile }} path"
+- name: "Get stats of the {{ homebrew_profile_path }} path"
   stat:
     path: "{{ homebrew_profile_path }}"
   register: homebrew_profile_result
